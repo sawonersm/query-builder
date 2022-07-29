@@ -1,0 +1,27 @@
+{
+    "version": "1.0.0",
+    "name": "sawonersm/query-builder",
+    "description": "Simple database query builder",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "QueryBuilder\\": "src/",
+            "Test\\": "test/"
+        }
+    },
+    "authors": [
+        {
+            "name": "sawonersm",
+            "email": "emilioruebar@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^8.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    },
+    "scripts": {
+        "test": "phpunit"
+    }
+}
