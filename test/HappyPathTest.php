@@ -22,6 +22,20 @@ class HappyPathTest extends TestCase
         self::assertEquals($expected, $qb->getQuery());
     }
 
+    public function testSelectOverride(): void
+    {
+        $qb = QueryBuilder::create();
+
+        $qb
+            ->select(["user.name"])
+            ->from("users")
+            ->select(["user.id"])
+        ;
+
+        $expected = "select user.id from users";
+        self::assertEquals($expected, $qb->getQuery());
+    }
+
     public function testSelectAlias(): void
     {
         $qb = QueryBuilder::create();

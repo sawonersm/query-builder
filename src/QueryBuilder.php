@@ -27,6 +27,7 @@ class QueryBuilder
 
     public function select(array $columns): self
     {
+        $this->columns = [];
         foreach ($columns as $column) {
             $this->columns[] = $column;
         }
