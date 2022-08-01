@@ -17,6 +17,7 @@ class QueryBuilder
         private ?int $limit = null,
         private ?int $offset = null,
         private array $clauses = [],
+        private array $parameters = [],
     ) {
     }
 
@@ -80,6 +81,17 @@ class QueryBuilder
     {
         $this->offset = $offset;
         return $this;
+    }
+
+    public function setParameter(string $key, mixed $value): self
+    {
+        $this->parameters[$key] = $value;
+        return $this;
+    }
+
+    public function getParameters(): array
+    {
+        return $this->parameters;
     }
 
     public function getQuery(): string

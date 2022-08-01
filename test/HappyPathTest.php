@@ -170,4 +170,17 @@ class HappyPathTest extends TestCase
         $expected = "select user.id from users user where user.id = :userId and user.name = :userName and user.phone = :userPhone";
         self::assertEquals($expected, $qb->getQuery());
     }
+
+    public function testParameters(): void
+    {
+        $qb = QueryBuilder::create();
+        $qb->setParameter("param1", "value1");
+        $qb->setParameter("param2", "value2");
+
+        $parameters = $qb->getParameters();
+        self::assertArrayHasKey("param1", $parameters);
+        self::assertArrayHasKey("param2", $parameters);
+        self::assertEquals("value1", $parameters["param1"]);
+        self::assertEquals("value2", $parameters["param2"]);
+    }
 }
