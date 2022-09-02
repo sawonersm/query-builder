@@ -111,6 +111,37 @@ class HappyPathTest extends TestCase
         self::assertEquals($expected, $qb->getQuery());
     }
 
+    public function testAddOrderBy(): void
+    {
+        $qb = QueryBuilder::create();
+
+        $qb
+            ->select(["user.name"])
+            ->from("users")
+            ->addOrderBy("user.name desc")
+        ;
+
+        $expected = "select user.name from users order by user.name desc";
+        self::assertEquals($expected, $qb->getQuery());
+    }
+
+    public function testOrderBy(): void
+    {
+        $qb = QueryBuilder::create();
+
+        $qb
+            ->select(["user.name"])
+            ->from("users")
+            ->orderBy([
+                "user.name desc",
+                "user.createdDate asc"
+            ])
+        ;
+
+        $expected = "select user.name from users order by user.name desc,user.createdDate asc";
+        self::assertEquals($expected, $qb->getQuery());
+    }
+
     public function testLimit(): void
     {
         $qb = QueryBuilder::create();

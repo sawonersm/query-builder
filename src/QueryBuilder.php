@@ -6,16 +6,21 @@ use QueryBuilder\Enum\ClauseType;
 use QueryBuilder\Enum\JoinType;
 use QueryBuilder\Part\Clause;
 use QueryBuilder\Part\Join;
+use QueryBuilder\Part\Order;
 use QueryBuilder\Part\Table;
 
 class QueryBuilder
 {
+    /**
+     * @param Order[] $order
+     */
     private function __construct(
         private array $columns = [],
         private ?Table $from = null,
         private array $joins = [],
         private ?int $limit = null,
         private ?int $offset = null,
+        private array $order = [],
         private array $clauses = [],
         private array $parameters = [],
     ) {
@@ -71,6 +76,18 @@ class QueryBuilder
         return $this;
     }
 
+    public function addOrderBy(string $order): self
+    {
+        $this->order[] = Order::create($order);
+        return $this;
+    }
+
+    public function orderBy(array $orders): self
+    {
+        $this->order = \array_map(fn(string $order) => Order::create($order), $orders);
+        return $this;
+    }
+
     public function limit(int $limit): self
     {
         $this->limit = $limit;
@@ -113,6 +130,12 @@ class QueryBuilder
             $clauses[0] = preg_replace('/(and|or)\s/', '', $clauses[0], 1);
             $clauses = implode(' ', $clauses);
             $query .= " where $clauses";
+        }
+
+        if (!empty($this->order)) {
+            $orders = \array_values(\array_map(fn($order) => (string) $order, $this->order));
+            $orders = implode(',', $orders);
+            $query .= " order by $orders";
         }
 
         if ($this->limit) {
